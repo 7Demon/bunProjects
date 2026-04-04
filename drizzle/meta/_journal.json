@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1775317785509,
+      "tag": "0000_fat_maximus",
+      "breakpoints": true
+    }
+  ]
+}
