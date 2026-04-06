@@ -58,3 +58,21 @@ export const getUserById = async (id) => {
     const result = await db.select().from(users).where(eq(users.id, parseInt(id)));
     return result[0] || null;
 };
+
+export const getCurrentUser = async (token) => {
+    const [result] = await db.select({
+        id: users.id,
+        name: users.name,
+        email: users.email
+    })
+    .from(sessions)
+    .innerJoin(users, eq(sessions.userId, users.id))
+    .where(eq(sessions.token, token))
+    .limit(1);
+
+    if (!result) {
+        throw new Error("unauthorized");
+    }
+
+    return result;
+};
