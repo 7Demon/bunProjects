@@ -15,6 +15,27 @@
       "when": 1775484143402,
       "tag": "0001_normal_newton_destine",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1775486317236,
+      "tag": "0002_military_puma",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1775486386942,
+      "tag": "0003_dizzy_william_stryker",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1775486421499,
+      "tag": "0004_skinny_black_bolt",
+      "breakpoints": true
     }
   ]
 }

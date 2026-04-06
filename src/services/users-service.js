@@ -84,10 +84,7 @@ export const deleteCurrentUser = async (token) => {
         throw new Error("unauthorized");
     }
 
-    // Hapus semua sesi user ini
-    await db.delete(sessions).where(eq(sessions.userId, session.userId));
-
-    // Hapus user
+    // Hapus user (Sesi akan terhapus otomatis oleh database karena CASCADE)
     await db.delete(users).where(eq(users.id, session.userId));
 
     return { message: "user berhasil dihapus" };
