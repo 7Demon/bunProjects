@@ -1,7 +1,21 @@
 import { Elysia, t } from 'elysia';
-import { registerUser, getAllUsers, getUserById } from '../services/users-service.js';
+import { registerUser, getAllUsers, getUserById, loginUser } from '../services/users-service.js';
 
 export const usersRoute = new Elysia({ prefix: '/api/users' })
+    .post('/login', async ({ body, set }) => {
+        try {
+            const token = await loginUser(body.email, body.password);
+            return { data: token };
+        } catch (error) {
+            set.status = 401; // Unauthorized
+            return { error: error.message };
+        }
+    }, {
+        body: t.Object({
+            email: t.String(),
+            password: t.String()
+        })
+    })
     .get('/', async () => {
         return await getAllUsers();
     })
