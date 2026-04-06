@@ -76,3 +76,19 @@ export const getCurrentUser = async (token) => {
 
     return result;
 };
+
+export const deleteCurrentUser = async (token) => {
+    const [session] = await db.select().from(sessions).where(eq(sessions.token, token)).limit(1);
+
+    if (!session) {
+        throw new Error("unauthorized");
+    }
+
+    // Hapus semua sesi user ini
+    await db.delete(sessions).where(eq(sessions.userId, session.userId));
+
+    // Hapus user
+    await db.delete(users).where(eq(users.id, session.userId));
+
+    return { message: "user berhasil dihapus" };
+};
