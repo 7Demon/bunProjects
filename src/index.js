@@ -1,7 +1,9 @@
 import { Elysia } from 'elysia';
+import { swagger } from '@elysiajs/swagger';
 import { usersRoute } from './routes/users-route.js';
 
 export const app = new Elysia()
+  .use(swagger())
   .onError(({ error, set }) => {
     if (error.message === 'unauthorized' || error.message === 'email atau password salah') {
       set.status = 401;
