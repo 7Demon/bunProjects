@@ -9,10 +9,26 @@ export const usersRoute = new Elysia({ prefix: '/api/users' })
         body: t.Object({
             email: t.String(),
             password: t.String()
-        })
+        }),
+        response: {
+            200: t.Object({
+                data: t.String()
+            }),
+            401: t.Object({
+                error: t.String()
+            })
+        }
     })
     .get('/', async () => {
         return await getAllUsers();
+    }, {
+        response: t.Array(t.Object({
+            id: t.Number(),
+            name: t.String(),
+            email: t.String(),
+            password: t.String(),
+            createdAt: t.Any()
+        }))
     })
     .post('/', async ({ body, set }) => {
         const result = await registerUser(body);
@@ -28,7 +44,15 @@ export const usersRoute = new Elysia({ prefix: '/api/users' })
             name: t.String(),
             email: t.String(),
             password: t.String()
-        })
+        }),
+        response: {
+            200: t.Object({
+                data: t.String()
+            }),
+            400: t.Object({
+                error: t.String()
+            })
+        }
     })
     .group('/current', (app) => app
         .derive(({ request }) => {
@@ -43,10 +67,34 @@ export const usersRoute = new Elysia({ prefix: '/api/users' })
         .get('', async ({ token }) => {
             const user = await getCurrentUser(token);
             return { data: user };
+        }, {
+            response: {
+                200: t.Object({
+                    data: t.Object({
+                        id: t.Number(),
+                        name: t.String(),
+                        email: t.String()
+                    })
+                }),
+                401: t.Object({
+                    error: t.String()
+                })
+            }
         })
         .delete('', async ({ token }) => {
             const result = await deleteCurrentUser(token);
             return { data: result };
+        }, {
+            response: {
+                200: t.Object({
+                    data: t.Object({
+                        message: t.String()
+                    })
+                }),
+                401: t.Object({
+                    error: t.String()
+                })
+            }
         })
     )
     .get('/:id', async ({ params: { id }, set }) => {
@@ -56,4 +104,17 @@ export const usersRoute = new Elysia({ prefix: '/api/users' })
             return { error: 'User tidak ditemukan' };
         }
         return user;
+    }, {
+        response: {
+            200: t.Object({
+                id: t.Number(),
+                name: t.String(),
+                email: t.String(),
+                password: t.String(),
+                createdAt: t.Any()
+            }),
+            404: t.Object({
+                error: t.String()
+            })
+        }
     });
